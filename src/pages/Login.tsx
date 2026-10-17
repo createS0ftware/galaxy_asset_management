@@ -31,7 +31,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+    <div className="flex min-h-dvh items-center justify-center bg-background px-4 py-10">
       <form onSubmit={submit} className="w-full max-w-sm rounded-xl border bg-card p-8 shadow-sm">
         <div className="flex flex-col items-center gap-3 text-center">
           <LogoMark className="size-10 text-xl" />

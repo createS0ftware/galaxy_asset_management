@@ -34,7 +34,7 @@ export default function Drivers() {
   return (
     <div className="mx-auto max-w-6xl space-y-4">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Drivers</h1>
+        <h1 className="text-page-title">Drivers</h1>
         <p className="mt-0.5 text-xs text-muted-foreground">
           Wallet-ready drivers can be assigned to trips. Keys live in the driver's phone — never here.
         </p>
@@ -67,7 +67,7 @@ export default function Drivers() {
 
       {error && <ErrorBox error={error} />}
       <Card>
-        <Table>
+        <Table className="min-w-[600px]">
           <TableHeader>
             <TableRow className="hover:bg-transparent">
               <TableHead>Name</TableHead>

@@ -58,9 +58,9 @@ export default function TripDetail() {
       <p className="text-xs text-muted-foreground">
         <Link to="/" className="text-blue-600 hover:underline">Trips</Link> / <span className="font-mono">{data.id}</span>
       </p>
-      <div className="mt-1 flex items-start justify-between gap-4">
+      <div className="flex flex-col-reverse gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h1 className="flex items-center gap-3 text-2xl font-bold tracking-tight">
+          <h1 className="flex flex-wrap items-center gap-3 text-page-title">
             <span className="font-mono">{data.id}</span> <StatusPill kind={data.status} />
             {data.escrow.funded_badge && <Badge variant="verified">Funded</Badge>}
           </h1>
@@ -72,7 +72,7 @@ export default function TripDetail() {
       </div>
       {msg && <p className={`mt-3 rounded-md px-3 py-2 text-xs ${msg.ok ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-600'}`}>{msg.text}</p>}
 
-      <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-5">
+      <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-5">
         {tile('Escrow funded', fmtMoney(data.escrow.funded), 'USDC')}
         {tile('Released to driver', fmtMoney(data.escrow.released), 'USDC')}
         {tile('Advances', fmtMoney(data.escrow.advances), 'USDC')}
@@ -80,7 +80,7 @@ export default function TripDetail() {
         {tile('Advance limit', fmtMoney(data.escrow.advanceLimit), 'USDC')}
       </div>
 
-      <div className="mt-4 grid items-start gap-4 lg:grid-cols-[1fr_330px]">
+      <div className="mt-4 grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_330px]">
         <div className="min-w-0 space-y-4">
           <Card>
             <CardHeader>
@@ -91,7 +91,7 @@ export default function TripDetail() {
               <RouteMap wps={mapWps} live={data.live ? { lat: data.live.lat, lon: data.live.lon, label: `${data.driver?.name ?? 'Driver'} · live` } : null} className="min-h-[280px]" />
               <div className="mt-4">
                 {data.waypoints.map((w) => (
-                  <div key={w.idx} className="flex items-center gap-3 border-b py-2.5 last:border-0">
+                  <div key={w.idx} className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b py-2.5 last:border-0">
                     <span
                       className={`size-2.5 shrink-0 rounded-full ${
                         w.state === 'verified' ? 'bg-blue-600' : w.state === 'next' ? 'border-2 border-primary bg-white' : 'border border-dashed border-muted-foreground bg-white'
@@ -125,7 +125,7 @@ export default function TripDetail() {
           <Card>
             <CardHeader><CardTitle>Custody events</CardTitle></CardHeader>
             <CardContent>
-              <Table>
+              <Table className="min-w-[620px]">
                 <TableHeader>
                   <TableRow className="hover:bg-transparent">
                     <TableHead>#</TableHead>

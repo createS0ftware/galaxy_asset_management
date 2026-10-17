@@ -49,25 +49,27 @@ export default function TripsIndex() {
   return (
     <div className="mx-auto max-w-6xl space-y-5">
       {/* ------------------------------------------------------- header */}
-      <div className="flex items-end justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Trips</h1>
+          <h1 className="text-page-title">Trips</h1>
           <p className="mt-0.5 text-xs text-muted-foreground">
             {active.filter((t) => !['delivered', 'cancelled'].includes(t.status)).length} active · updated{' '}
             {dataUpdatedAt ? new Date(dataUpdatedAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : '—'}
           </p>
         </div>
-        <div className="flex items-center gap-5">
-          <RouteLegend />
-          <Button variant="dark" onClick={() => nav('/routes/new')}>
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="hidden md:block">
+            <RouteLegend />
+          </div>
+          <Button variant="dark" onClick={() => nav('/routes/new')} className="w-full sm:w-auto">
             <Plus className="size-4" /> Plan a route
           </Button>
         </div>
       </div>
 
       {/* ------------------------------------------- map + needs attention */}
-      <div className="grid gap-4 lg:grid-cols-[1fr_350px]">
-        <Card>
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_350px]">
+        <Card className="min-w-0">
           <CardHeader>
             <CardTitle>
               {featuredTrip ? (
@@ -87,7 +89,7 @@ export default function TripsIndex() {
                 Kwame A. · live — dashed line to the next waypoint is a GPS estimate, not a ledger check-in
               </p>
             )}
-            <RouteMap wps={mapWps} live={featuredTrip?.live ? { lat: featuredTrip.live.lat, lon: featuredTrip.live.lon, label: 'Kwame A. · live' } : null} className="min-h-[300px]" />
+            <RouteMap wps={mapWps} live={featuredTrip?.live ? { lat: featuredTrip.live.lat, lon: featuredTrip.live.lon, label: 'Kwame A. · live' } : null} className="min-h-56 sm:min-h-[300px]" />
           </CardContent>
         </Card>
 
@@ -104,7 +106,7 @@ export default function TripsIndex() {
           {data?.attention.map((a, i) => {
             const meta = CARD_TITLES[a.kind] ?? { label: a.kind, icon: PenLine, cls: 'text-foreground' };
             return (
-              <Card key={i}>
+              <Card key={i} className="@container">
                 <CardHeader className="items-start">
                   <div>
                     <span className={`flex items-center gap-1.5 text-[13px] font-semibold ${meta.cls}`}>
@@ -138,8 +140,48 @@ export default function TripsIndex() {
       </div>
 
       {/* ------------------------------------------------ active trips table */}
-      <Card>
-        <Table>
+      {/* Mobile: compact cards (responsive-tables pattern); Desktop: full table */}
+      <div className="space-y-3 md:hidden">
+        {active.map((t) => (
+          <Card key={t.id} className="@container cursor-pointer" onClick={() => nav(`/trips/${t.id}`)}>
+            <CardContent className="space-y-2 pt-4">
+              <div className="flex items-center justify-between gap-3">
+                <span className="font-mono text-xs font-medium">{t.id}</span>
+                <StatusPill kind={t.status} />
+              </div>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 [&_dd]:text-xs [&_dt]:text-[10px] uppercase tracking-wide text-muted-foreground [&_dd]:font-medium [&_dt]:block">
+                <div>
+                  <dt>Asset</dt>
+                  <dd>
+                    <a href={`/assets/${t.assetId}`} onClick={(e) => e.stopPropagation()} className="text-blue-600 hover:underline">
+                      {assetName(t.assetId)}
+                    </a>
+                  </dd>
+                </div>
+                <div>
+                  <dt>Driver</dt>
+                  <dd>{driverName(t.driverId)}</dd>
+                </div>
+                <div>
+                  <dt>Next waypoint</dt>
+                  <dd>{t.next ? `${t.next.name} · ${fmtTime(t.next.windowStart)}` : '—'}</dd>
+                </div>
+                <div>
+                  <dt>Escrow left</dt>
+                  <dd>{fmtMoney(t.escrowLeft)} USDC</dd>
+                </div>
+              </div>
+              {t.lastVerified && (
+                <div className="text-[11px] text-muted-foreground">
+                  Last verified wp {t.lastVerified.wp} · {fmtTime(t.lastVerified.at)} · <TxLink txHash={t.lastVerified.txHash} />
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+      <Card className="hidden md:block">
+        <Table className="min-w-[768px]">
           <TableHeader>
             <TableRow className="hover:bg-transparent">
               <TableHead>Trip</TableHead>

@@ -16,14 +16,14 @@ export default function Assets() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-4">
-      <div className="flex items-end justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Assets</h1>
+          <h1 className="text-page-title">Assets</h1>
           <p className="mt-0.5 text-xs text-muted-foreground">
             Registered physical assets with their on-chain identity. Only tag-activated assets can be dispatched (BR-01).
           </p>
         </div>
-        <Button variant="dark" onClick={() => setShowForm((s) => !s)}>
+        <Button variant="dark" onClick={() => setShowForm((s) => !s)} className="w-full sm:w-auto">
           <Plus className="size-4" /> Register asset
         </Button>
       </div>
@@ -32,7 +32,7 @@ export default function Assets() {
 
       {error && <ErrorBox error={error} />}
       <Card>
-        <Table>
+        <Table className="min-w-[680px]">
           <TableHeader>
             <TableRow className="hover:bg-transparent">
               <TableHead>Asset</TableHead>

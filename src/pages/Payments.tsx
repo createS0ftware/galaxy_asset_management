@@ -28,11 +28,11 @@ export default function Payments() {
   };
 
   const tile = (label: string, value: string, caption: string, alert = false) => (
-    <Card className={alert ? 'border-red-200' : ''}>
+    <Card className={`@container ${alert ? 'border-red-200' : ''}`}>
       <CardContent className="pt-4">
         <p className="text-[11px] text-muted-foreground">{label}</p>
-        <p className={`mt-1 text-[22px] font-bold tracking-tight ${alert ? 'text-red-600' : ''}`}>{value}</p>
-        <p className="mt-0.5 text-[10.5px] text-muted-foreground">{caption}</p>
+        <p className={`mt-1 text-[clamp(1.05rem,7cqi,1.45rem)] font-bold tracking-tight ${alert ? 'text-red-600' : ''}`}>{value}</p>
+        <p className="mt-0.5 text-[10.5px] leading-snug text-muted-foreground">{caption}</p>
       </CardContent>
     </Card>
   );
@@ -41,12 +41,12 @@ export default function Payments() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-4">
-      <div className="flex items-end justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Payments</h1>
+          <h1 className="text-page-title">Payments</h1>
           <p className="mt-0.5 text-xs text-muted-foreground">All amounts are USDC on Stellar.</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Button variant="outline" asChild>
             <a href="/v1/payments/reconciliation.csv" download>
               <Download className="size-4" /> Export reconciliation (CSV)
@@ -57,7 +57,7 @@ export default function Payments() {
 
       {msg && <p className={`rounded-md px-3 py-2 text-xs ${msg.ok ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-600'}`}>{msg.text}</p>}
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-3 sm:grid-cols-3">
         {tile('Treasury', fmtMoney(data.treasury.usdc), 'Escrows funded from here')}
         {tile('Held for trips (accounts + contracted)', fmtMoney(data.escrowHeld), `${data.escrowByTrip.length} active trips`)}
         {tile(
@@ -68,11 +68,11 @@ export default function Payments() {
         )}
       </div>
 
-      <div className="grid items-start gap-4 lg:grid-cols-[1fr_330px]">
-        <Card>
+      <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_330px]">
+        <Card className="min-w-0">
           <CardHeader><CardTitle>Escrow by trip</CardTitle></CardHeader>
           <CardContent>
-            <Table>
+            <Table className="min-w-[540px]">
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
                   <TableHead>Trip</TableHead>
@@ -85,7 +85,10 @@ export default function Payments() {
               <TableBody>
                 {data.escrowByTrip.map((t) => (
                   <TableRow key={t.trip} className="cursor-pointer" onClick={() => nav(`/trips/${t.trip}`)}>
-                    <TableCell className="font-mono text-xs font-medium">{t.trip} <StatusPill kind={t.status} /></TableCell>
+                    <TableCell className="whitespace-normal">
+                      <div className="font-mono text-xs font-medium">{t.trip}</div>
+                      <div className="mt-1"><StatusPill kind={t.status} /></div>
+                    </TableCell>
                     <TableCell className="text-right text-xs">{fmtMoney(t.funded)}</TableCell>
                     <TableCell className="text-right text-xs">{fmtMoney(t.released)}</TableCell>
                     <TableCell className="text-xs">
@@ -138,7 +141,7 @@ export default function Payments() {
       <Card>
         <CardHeader><CardTitle>Recent payouts to drivers</CardTitle></CardHeader>
         <CardContent>
-          <Table>
+          <Table className="min-w-[620px]">
             <TableHeader>
               <TableRow className="hover:bg-transparent">
                 <TableHead className="w-20">Time</TableHead>

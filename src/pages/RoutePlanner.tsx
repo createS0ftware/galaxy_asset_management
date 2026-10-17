@@ -115,12 +115,12 @@ export default function RoutePlanner() {
       <p className="text-xs text-muted-foreground">
         <Link to="/" className="text-blue-600 hover:underline">Trips</Link> / New trip
       </p>
-      <div className="mt-1 flex items-start justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Plan route {tripId.trim() ? `· ${tripId}` : ''}</h1>
+          <h1 className="text-page-title">Plan route {tripId.trim() ? `· ${tripId}` : ''}</h1>
           <p className="mt-0.5 text-xs text-muted-foreground">Draft. Nothing is on the ledger until you fund and dispatch.</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           {note && <span className="text-[11px] text-muted-foreground">{note}</span>}
           <Button variant="dark" onClick={() => setNote('Drafts aren’t stored in this demo — fund and dispatch to create the trip.')}>
             Save draft
@@ -129,7 +129,7 @@ export default function RoutePlanner() {
       </div>
 
       <form onSubmit={submit}>
-        <div className="mt-4 grid gap-4 lg:grid-cols-[1fr_340px]">
+        <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,1fr)_340px]">
           {/* ------------------------------------------------------- left */}
           <div className="min-w-0 space-y-4">
             <Card>
@@ -177,7 +177,7 @@ export default function RoutePlanner() {
                 </Button>
               </CardHeader>
               <CardContent>
-                <Table>
+                <Table className="min-w-[820px]">
                   <TableHeader>
                     <TableRow className="hover:bg-transparent">
                       <TableHead className="w-8">#</TableHead>
@@ -201,14 +201,14 @@ export default function RoutePlanner() {
                           <Input type="number" value={w.radiusM} onChange={(e) => setWp(i, { radiusM: e.target.value })} placeholder="auto" className="h-8 w-20" />
                         </TableCell>
                         <TableCell>
-                          <div className="flex items-center gap-1">
-                            <Input type="datetime-local" required value={w.windowStart} onChange={(e) => setWp(i, { windowStart: e.target.value })} className="h-8 w-40 text-xs" />
+                          <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-1">
+                            <Input type="datetime-local" required value={w.windowStart} onChange={(e) => setWp(i, { windowStart: e.target.value })} className="h-8 w-full text-xs sm:w-36" />
                             {/* end shares the second slot visually */}
-                            <Input type="datetime-local" required value={w.windowEnd} onChange={(e) => setWp(i, { windowEnd: e.target.value })} className="h-8 w-40 text-xs" />
+                            <Input type="datetime-local" required value={w.windowEnd} onChange={(e) => setWp(i, { windowEnd: e.target.value })} className="h-8 w-full text-xs sm:w-36" />
                           </div>
                         </TableCell>
                         <TableCell>
-                          <Input type="number" step="0.01" min="0" value={w.legPay} onChange={(e) => setWp(i, { legPay: e.target.value })} placeholder="—" className="h-8 w-20" />
+                          <Input type="number" step="0.01" min="0" value={w.legPay} onChange={(e) => setWp(i, { legPay: e.target.value })} placeholder="—" className="h-8 w-full sm:w-20" />
                         </TableCell>
                         <TableCell>
                           {wps.length > 2 && i !== 0 && i !== wps.length - 1 && (

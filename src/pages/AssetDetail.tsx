@@ -65,16 +65,16 @@ export default function AssetDetailPage() {
       <p className="text-xs text-muted-foreground">
         <Link to="/assets" className="text-blue-600 hover:underline">Assets</Link> / {data.id}
       </p>
-      <div className="mt-1 flex items-start justify-between gap-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">{data.name}</h1>
+          <h1 className="text-page-title">{data.name}</h1>
           <div className="mt-2 flex flex-wrap gap-2">
             <Badge variant="secondary">Serial {data.serial}</Badge>
             <Badge variant="secondary">NFC tag {data.tagId}</Badge>
             {data.status === 'active' ? <Badge variant="verified">Active</Badge> : <Badge className="border-amber-200 bg-amber-50 text-amber-600">Registered</Badge>}
           </div>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2 sm:flex-row">
           {data.status !== 'active' && (
             <Button onClick={activate} disabled={busy}>{busy ? 'Activating…' : 'Simulate tag scan & activate'}</Button>
           )}
@@ -83,7 +83,7 @@ export default function AssetDetailPage() {
       </div>
       {msg && <p className={`mt-3 rounded-md px-3 py-2 text-xs ${msg.ok ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-600'}`}>{msg.text}</p>}
 
-      <div className="mt-5 grid items-start gap-4 lg:grid-cols-[1fr_330px]">
+      <div className="mt-5 grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_330px]">
         {/* ------------------------------------------------ custody trail */}
         <Card>
           <CardHeader>
