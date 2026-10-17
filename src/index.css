@@ -1,0 +1,71 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: #f3f2ef;
+  --foreground: #17181a;
+  --card: #ffffff;
+  --card-foreground: #17181a;
+  --popover: #ffffff;
+  --popover-foreground: #17181a;
+  --primary: #c2410c;
+  --primary-foreground: #fff6f1;
+  --secondary: #eceae5;
+  --secondary-foreground: #17181a;
+  --muted: #edebe6;
+  --muted-foreground: #74787d;
+  --accent: #edebe6;
+  --accent-foreground: #17181a;
+  --destructive: #dc2626;
+  --border: #e5e3de;
+  --input: #dcd9d3;
+  --ring: #c2410c;
+  --verified: #2467e3;
+  --radius: 0.65rem;
+  --sidebar: #0c0d10;
+  --sidebar-border: #1d1f24;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-verified: var(--verified);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-border: var(--sidebar-border);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+  html {
+    font-size: 14.5px;
+  }
+}
